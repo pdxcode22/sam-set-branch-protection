@@ -1,5 +1,7 @@
 exports.handler = async (event, context, callback) => {
     console.log('Received event:', JSON.stringify(event, null, 2));
+    let body = JSON.parse(decodeURIComponent(event.body.substring(event.body.indexOf('=')+1)));
+
     const responseBody = {
         status: "success"
     };

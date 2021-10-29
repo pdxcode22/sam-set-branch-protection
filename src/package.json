@@ -1,0 +1,12 @@
+{
+    "name": "sample-sqs-lambda",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+      "aws-sdk": "~2"
+    },
+    "devDependencies": {
+      "aws-sdk-mock": "^5.1.0"
+    }
+  }
+  

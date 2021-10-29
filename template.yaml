@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: API Gateway + Lambda to set branch protection on new GH repo
+
+
+Parameters:
+  Secret:
+    Type: String
+
+Resources:
+  processWebhookApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub ${AWS::StackName}-processWebhookApi
+      StageName: Prod
+      Cors: "'*'"
+  processWebhook:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-processWebhook
+      Description: processWebhook endpoint
+      CodeUri: src/
+      Handler: processWebhook/index.handler
+      Runtime: nodejs12.x
+      MemorySize: 256
+      Timeout: 120
+      Events:
+        Root:
+          Type: Api
+          Properties:
+            RestApiId: !Ref processWebhookApi
+            Path: /processWebhook
+            Method: POST
+      Environment:
+        Variables:
+          SECRET: !Ref Secret
+Outputs:
+  processWebhookApiEndpoint:
+    Description: API Gateway endpoint URL for Prod stage for processWebhook function
+    Value: !Sub https://${processWebhookApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/processWebhook

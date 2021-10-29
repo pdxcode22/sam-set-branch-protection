@@ -7,10 +7,10 @@ The lambda receives a payload from the Github
 ## Deploying the stack
 
 1. [Install AWS sam cli](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
-1. Setup creds in AWS for cli with a profile called mylm
-1. run `export AWS_PROFILE=<your profile>`
-1. run `sam build`
-1. run `sam deploy --guided`
+2. Setup creds in AWS for cli with a profile
+3. run `export AWS_PROFILE=<your profile>`
+4. run `sam build`
+5. run `sam deploy --guided`
 
 Subsequent deploys to the same stack to the default environment...
 

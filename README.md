@@ -17,14 +17,21 @@ Subsequent deploys to the same stack to the default environment...
 1. run `sam build`
 1. run `sam deploy`
 
+## CI/CD
+Add the following secrets to your repo to deploy the stack via GitHub actions:  
+AWS_ACCESS_KEY_ID  
+AWS_SECRET_ACCESS_KEY  
+SECRET  
+
 ## Setup Github webhook
 1. Go to your Org webhook settings in GitHub. `https://github.com/organizations/<your org name>/settings/hooks`
 2. Click `Add webhook`
 3. Use the cloudformation output value for key=processWebhookApiEndpoint as the `Payload URL`
-4. Choose `Let me select individual events.`
-5. Deselect `Pushes`
-6. Select `Repositories`
-7. Click `Add webhook` at the bottom of the page
+4. Use the same secret used in the stack deployment
+5. Choose `Let me select individual events.`
+6. Deselect `Pushes`
+7. Select `Repositories`
+8. Click `Add webhook` at the bottom of the page
 
 ## Running:
  `sam local invoke processWebhook -n vars.json -e src/processWebhook/event.json`

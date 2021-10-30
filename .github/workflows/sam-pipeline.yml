@@ -21,4 +21,4 @@ jobs:
 # Run Unit tests- Specify unit tests here 
 
 # sam deploy
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --parameter-overrides Secret=${{ secrets.SECRET }} ##s3-bucket## --capabilities CAPABILITY_IAM --region ##region##
+      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --parameter-overrides Secret=${{ secrets.SECRET }} --config-env=default ##s3-bucket## --capabilities CAPABILITY_IAM --region ##region##

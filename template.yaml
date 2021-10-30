@@ -6,6 +6,8 @@ Description: API Gateway + Lambda to set branch protection on new GH repo
 Parameters:
   Secret:
     Type: String
+  GHToken:
+    Type: String
   SubscriptionEmail:
     Type: String
     Default: riznob@gmail.com
@@ -41,6 +43,7 @@ Resources:
       Environment:
         Variables:
           SECRET: !Ref Secret
+          GH_TOKEN: !Ref GHToken
   notifyTopic:
     Type: AWS::SNS::Topic
     Properties:

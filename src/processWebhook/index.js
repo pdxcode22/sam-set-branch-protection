@@ -9,7 +9,9 @@ exports.handler = async (event, context, callback) => {
     if (validateJsonWebhook(event)) {
         console.log("Webhook signature valid");
         let body = JSON.parse(decodeURIComponent(event.body.substring(event.body.indexOf('=')+1)));
-
+        const octokit = new Octokit({
+            auth: process.env.GH_TOKEN,
+        })
     } else {
         console.log("Webhook signature invalid");
     }

@@ -21,7 +21,8 @@ Subsequent deploys to the same stack to the default environment...
 Add the following secrets to your repo to deploy the stack via GitHub actions:  
 AWS_ACCESS_KEY_ID  
 AWS_SECRET_ACCESS_KEY  
-SECRET  
+SECRET  ## Shared secret used in webhook  
+GH_TOKEN  ## Personal GitHub access token  
 
 ## Setup Github webhook
 1. Go to your Org webhook settings in GitHub. `https://github.com/organizations/<your org name>/settings/hooks`

@@ -28,7 +28,7 @@ exports.handler = async (event, context, callback) => {
             owner: body.repository.owner.login,
             repo: body.repository.name,
             title: "Branch protections added",
-            body: `Branch protections added to this repo include:  \n - Require a pull request before merging  \n - Required number of approvals before merging: 1  \n - Restrict who can push to matching branches  \n - Enforce restrictions for administrators  \n@${process.env.NOTIFY_USER}`,
+            body: `Branch protections added to the default branch include:  \n - Require a pull request before merging  \n - Required number of approvals before merging: 1  \n - Restrict who can push to matching branches  \n - Enforce restrictions for administrators  \n@${process.env.NOTIFY_USER}`,
         });
         
         const responseBody = {

@@ -2,7 +2,7 @@ const { Octokit } = require("@octokit/rest");
 const crypto = require("crypto");
 
 exports.handler = async (event, context, callback) => {
-    //console.log('Received event:', JSON.stringify(event, null, 2));
+    console.log('Received event:', JSON.stringify(event, null, 2));
     
     if (validateJsonWebhook(event)) {
         console.log("Webhook signature valid");
@@ -15,7 +15,7 @@ exports.handler = async (event, context, callback) => {
             repo: body.repository.name,
             branch: body.repository.default_branch,
             required_status_checks: null,
-            enforce_admins: null,
+            enforce_admins: true,
             required_pull_request_reviews: {
                 required_approving_review_count: 1
             },
@@ -28,7 +28,7 @@ exports.handler = async (event, context, callback) => {
             owner: body.repository.owner.login,
             repo: body.repository.name,
             title: "Branch protections added",
-            body: `Branch protections added to this repo include:  \n - Require a pull request before merging  \n - Required number of approvals before merging: 1  \n - Restrict who can push to matching branches  \n@${process.env.NOTIFY_USER}`,
+            body: `Branch protections added to this repo include:  \n - Require a pull request before merging  \n - Required number of approvals before merging: 1  \n - Restrict who can push to matching branches  \n - Enforce restrictions for administrators  \n@${process.env.NOTIFY_USER}`,
         });
         
         const responseBody = {

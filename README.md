@@ -41,3 +41,9 @@ NOTIFY_USER  ## The GitHub user to be mentioned in the issue created
  ## Debugging:
 `sam local invoke -d 9999 processWebhook -n vars.json -e src/processWebhook/event.json`  
 Then in VSCode run the `Attach to lambda` profile
+
+## Resources
+https://docs.github.com/en/developers/webhooks-and-events/webhooks  
+https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks  
+https://humanwhocodes.com/snippets/2020/08/validate-github-webhook-signature-nodejs/  
+https://octokit.github.io/rest.js/v18/  

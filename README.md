@@ -38,4 +38,5 @@ GH_TOKEN  ## Personal GitHub access token
  `sam local invoke processWebhook -n vars.json -e src/processWebhook/event.json`
 
  ## Debugging:
-`sam local invoke -d 9999 processWebhook -n vars.json -e src/processWebhook/event.json`
+`sam local invoke -d 9999 processWebhook -n vars.json -e src/processWebhook/event.json`  
+Then in VSCode run the `Attach to lambda` profile

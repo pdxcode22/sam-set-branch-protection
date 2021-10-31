@@ -2,16 +2,14 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: API Gateway + Lambda to set branch protection on new GH repo
 
-
 Parameters:
   Secret:
     Type: String
   GHToken:
     Type: String
-  SubscriptionEmail:
+  NotifyUser:
     Type: String
-    Default: riznob@gmail.com
-    ConstraintDescription: must be an email address
+    ConstraintDescription: github user to mention
 
 Resources:
   processWebhookApi:
@@ -37,21 +35,12 @@ Resources:
             RestApiId: !Ref processWebhookApi
             Path: /processWebhook
             Method: POST
-      Policies:
-        - SNSPublishMessagePolicy:
-            TopicName: !Ref notifyTopic
       Environment:
         Variables:
           SECRET: !Ref Secret
           GH_TOKEN: !Ref GHToken
-  notifyTopic:
-    Type: AWS::SNS::Topic
-    Properties:
-      DisplayName: !Sub "${AWS::StackName}-notifyGitHubBranchProtection"
-      TopicName: !Sub "${AWS::StackName}-notifyGitHubBranchProtection"
-      Subscription:
-        - Endpoint: !Ref SubscriptionEmail
-          Protocol: email
+          NOTIFY_USER: !Ref NotifyUser
+
 Outputs:
   processWebhookApiEndpoint:
     Description: API Gateway endpoint URL for Prod stage for processWebhook function

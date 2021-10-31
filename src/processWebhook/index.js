@@ -1,7 +1,5 @@
 const { Octokit } = require("@octokit/rest");
 const crypto = require("crypto");
-const AWS = require('aws-sdk');
-const sqs = new AWS.SQS({ apiVersion: '2012-11-05' });
 
 exports.handler = async (event, context, callback) => {
     //console.log('Received event:', JSON.stringify(event, null, 2));
@@ -26,6 +24,13 @@ exports.handler = async (event, context, callback) => {
                 teams: []
             }
         });
+        octokit.rest.issues.create({
+            owner: body.repository.owner.login,
+            repo: body.repository.name,
+            title: "Branch protections added",
+            body: `Branch protections added to this repo include:  \n - Require a pull request before merging  \n - Required number of approvals before merging: 1  \n - Restrict who can push to matching branches  \n@${process.env.NOTIFY_USER}`,
+        });
+        
         const responseBody = {
             status: "success"
         };

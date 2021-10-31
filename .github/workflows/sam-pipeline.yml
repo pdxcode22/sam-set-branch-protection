@@ -21,4 +21,4 @@ jobs:
 # Run Unit tests- Specify unit tests here 
 
 # sam deploy
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --parameter-overrides Secret=${{ secrets.SECRET }} GHToken=${{ secrets.GH_TOKEN }} --config-env=default --stack-name=sam-set-branch-portection --resolve-s3 --capabilities CAPABILITY_IAM ##s3-bucket## --region ##region##
+      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --parameter-overrides Secret=${{ secrets.SECRET }} GHToken=${{ secrets.GH_TOKEN }} NotifyUser=riznob --stack-name=sam-set-branch-portection --resolve-s3 --capabilities CAPABILITY_IAM ##s3-bucket## --region ##region##

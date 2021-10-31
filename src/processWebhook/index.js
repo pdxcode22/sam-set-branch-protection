@@ -11,24 +11,39 @@ exports.handler = async (event, context, callback) => {
         let body = JSON.parse(decodeURIComponent(event.body.substring(event.body.indexOf('=')+1)));
         const octokit = new Octokit({
             auth: process.env.GH_TOKEN,
-        })
+        });
+        await octokit.rest.repos.updateBranchProtection({
+            owner: body.repository.owner.login,
+            repo: body.repository.name,
+            branch: body.repository.default_branch,
+            required_status_checks: null,
+            enforce_admins: null,
+            required_pull_request_reviews: {
+                required_approving_review_count: 1
+            },
+            restrictions: {
+                users: [],
+                teams: []
+            }
+        });
+        const responseBody = {
+            status: "success"
+        };
+        const response = {
+            statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Headers":
+                "Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "OPTIONS,POST",
+            },
+            body: JSON.stringify(responseBody),
+        };
+        callback(null, response);
     } else {
         console.log("Webhook signature invalid");
+        context.fail("Webhook signature invalid. Make sure the stack secret matches the webhook secret!");
     }
-    const responseBody = {
-        status: "success"
-    };
-    const response = {
-        statusCode: 200,
-        headers: {
-            "Access-Control-Allow-Headers":
-            "Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "OPTIONS,POST",
-        },
-        body: JSON.stringify(responseBody),
-    };
-    callback(null, response);
 };
 
 function validateJsonWebhook(event) {

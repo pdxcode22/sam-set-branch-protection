@@ -41,8 +41,8 @@ exports.handler = async (event, context, callback) => {
         };
         callback(null, response);
     } else {
-        console.log("Webhook signature invalid");
-        context.fail("Webhook signature invalid. Make sure the stack secret matches the webhook secret!");
+        var error = new Error("Webhook signature invalid. Make sure the stack secret matches the webhook secret!")
+        context.fail(error);
     }
 };
 
@@ -54,15 +54,9 @@ function validateJsonWebhook(event) {
             .update(event.body)
             .digest("hex");
 
-    // compare the signature against the one in the request
+    // compare the signature against the one in the event
     const signature = event.headers["X-Hub-Signature"];
-    if (signature !== expectedSignature) {
-        //throw new Error("Invalid signature.");
-        return false;
-    } else{
-        return true;
-    }
-
+    return (signature == expectedSignature)
 }
 
 exports.validateJsonWebhook = validateJsonWebhook;

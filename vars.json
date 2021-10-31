@@ -1,6 +1,7 @@
 {
     "processWebhook": {
         "SECRET": "",
-        "GH_TOKEN": ""
+        "GH_TOKEN": "",
+        "NOTIFY_USER": ""
     }
 }

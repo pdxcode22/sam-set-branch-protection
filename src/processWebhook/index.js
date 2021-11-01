@@ -7,29 +7,33 @@ exports.handler = async (event, context, callback) => {
     if (validateJsonWebhook(event)) {
         console.log("Webhook signature valid");
         let body = JSON.parse(decodeURIComponent(event.body.substring(event.body.indexOf('=')+1)));
-        const octokit = new Octokit({
-            auth: process.env.GH_TOKEN,
-        });
-        await octokit.rest.repos.updateBranchProtection({
-            owner: body.repository.owner.login,
-            repo: body.repository.name,
-            branch: body.repository.default_branch,
-            required_status_checks: null,
-            enforce_admins: true,
-            required_pull_request_reviews: {
-                required_approving_review_count: 1
-            },
-            restrictions: {
-                users: [],
-                teams: []
-            }
-        });
-        octokit.rest.issues.create({
-            owner: body.repository.owner.login,
-            repo: body.repository.name,
-            title: "Branch protections added",
-            body: `Branch protections added to the default branch include:  \n - Require a pull request before merging  \n - Required number of approvals before merging: 1  \n - Restrict who can push to matching branches  \n - Enforce restrictions for administrators  \n@${process.env.NOTIFY_USER}`,
-        });
+        if (body.action == 'created') {
+            const octokit = new Octokit({
+                auth: process.env.GH_TOKEN,
+            });
+            await octokit.rest.repos.updateBranchProtection({
+                owner: body.repository.owner.login,
+                repo: body.repository.name,
+                branch: body.repository.default_branch,
+                required_status_checks: null,
+                enforce_admins: true,
+                required_pull_request_reviews: {
+                    required_approving_review_count: 1
+                },
+                restrictions: {
+                    users: [],
+                    teams: []
+                }
+            });
+            octokit.rest.issues.create({
+                owner: body.repository.owner.login,
+                repo: body.repository.name,
+                title: "Branch protections added",
+                body: `Branch protections added to the default branch include:  \n - Require a pull request before merging  \n - Required number of approvals before merging: 1  \n - Restrict who can push to matching branches  \n - Enforce restrictions for administrators  \n@${process.env.NOTIFY_USER}`,
+            });
+        } else {
+            console.log("Not the event we are looking for...");
+        }
         
         const responseBody = {
             status: "success"

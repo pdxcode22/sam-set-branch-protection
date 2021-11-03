@@ -1,3 +1,5 @@
+name: SAM Deply Pipeline
+
 on:
   push:
     branches:

@@ -10,6 +10,41 @@ Parameters:
   NotifyUser:
     Type: String
     ConstraintDescription: github user to mention
+  EnforceAdmins:
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
+  DismissStaleReviews:
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
+  RequireCodeOwnerReviews:
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
+  RequiredApprovingReviewCount:
+    Type: Number
+    Default: 1
+  RequiredLinearHistory:
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
+  AllowForcePushes:
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
+  AllowDeletions:
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
+  BlockCreations:
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
+  RequiredConversationResolution:
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
 
 Resources:
   processWebhookApi:
@@ -25,7 +60,7 @@ Resources:
       Description: processWebhook endpoint
       CodeUri: src/
       Handler: processWebhook/index.handler
-      Runtime: nodejs14.x
+      Runtime: nodejs16.x
       Events:
         Root:
           Type: Api
@@ -38,6 +73,16 @@ Resources:
           SECRET: !Ref Secret
           GH_TOKEN: !Ref GHToken
           NOTIFY_USER: !Ref NotifyUser
+          ENFORCE_ADMINS: !Ref EnforceAdmins
+          DISMISS_STALE_REVIEWS: !Ref DismissStaleReviews
+          REQUIRE_CODE_OWNER_REVIEWS: !Ref RequireCodeOwnerReviews
+          REQUIRED_APPROVING_REVIEW_COUNT: !Ref RequiredApprovingReviewCount
+          REQUIRED_LINEAR_HISTORY: !Ref RequiredLinearHistory
+          ALLOW_FORCE_PUSHES: !Ref AllowForcePushes
+          ALLOW_DELETIONS: !Ref AllowDeletions
+          BLOCK_CREATIONS: !Ref BlockCreations
+          REQUIRED_CONVERSATION_RESOLUTION: !Ref RequiredConversationResolution
+
 
 Outputs:
   processWebhookApiEndpoint:

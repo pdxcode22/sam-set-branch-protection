@@ -1,3 +1,5 @@
+name: Create new environment on PR open
+
 on:
   pull_request:
     types:

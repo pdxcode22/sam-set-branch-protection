@@ -1,4 +1,4 @@
-name: Create new environment on PR open
+name: Create new environment on PR label
 
 on:
   pull_request:
